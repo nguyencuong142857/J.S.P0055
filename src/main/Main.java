@@ -5,6 +5,7 @@
  */
 package main;
 
+import bo.DoctorBusinessObject;
 import entity.Doctor;
 import java.util.Scanner;
 import utils.Validation;
@@ -20,7 +21,7 @@ public class Main {
      */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Doctor doctorManager = new Doctor();
+        DoctorBusinessObject doctorManager = new DoctorBusinessObject();
 
         while (true) {
             System.out.println("----- Doctor manage -----");
