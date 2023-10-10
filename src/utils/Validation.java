@@ -5,22 +5,26 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Validation {
-    
+
     private static final Scanner SCANNER = new Scanner(System.in);
-    
+
     /**
      * Don't let anyone instantiate this class.
      */
-    private Validation() {}
-    
+    private Validation() {
+    }
+
     /**
      * Returns the valid integer value scanned from the input.
      *
-     * @param messageInfo               the message to be printed instructing the user to input
-     * @param messageErrorOutOfRange    the message will be printed if the parsed value is out of range
-     * @param messageErrorInvalidNumber the message will be printed if the String does not contain a parsable integer
-     * @param min                       minimum limit value
-     * @param max                       maximum limit value
+     * @param messageInfo the message to be printed instructing the user to
+     * input
+     * @param messageErrorOutOfRange the message will be printed if the parsed
+     * value is out of range
+     * @param messageErrorInvalidNumber the message will be printed if the
+     * String does not contain a parsable integer
+     * @param min minimum limit value
+     * @param max maximum limit value
      * @return the valid integer value scanned from the input
      */
     public static int getInt(
@@ -43,12 +47,16 @@ public class Validation {
         } while (true);
     }
 
-     /**
-     * Returns the valid string scanned from the input that matches the specified regex pattern.
+    /**
+     * Returns the valid string scanned from the input that matches the
+     * specified regex pattern.
      *
-     * @param messageInfo               the message to be printed instructing the user to input
-     * @param messageErrorInvalid      the message will be printed if the input does not match the regex pattern
-     * @param regexPattern             the regular expression pattern to match the input against
+     * @param messageInfo the message to be printed instructing the user to
+     * input
+     * @param messageErrorInvalid the message will be printed if the input does
+     * not match the regex pattern
+     * @param regexPattern the regular expression pattern to match the input
+     * against
      * @return the valid string scanned from the input
      */
     public static String getStringWithRegex(
@@ -60,6 +68,10 @@ public class Validation {
         do {
             System.out.print(messageInfo);
             String input = SCANNER.nextLine();
+            if (input.isEmpty()) { // Kiểm tra nếu chuỗi rỗng
+                System.err.println(messageErrorInvalid);
+                continue;
+            }
             Matcher matcher = pattern.matcher(input);
             if (matcher.matches()) {
                 return input;
@@ -68,27 +80,17 @@ public class Validation {
         } while (true);
     }
 
-    public static String getSring(String info,String error,String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        do {  
-            System.out.print(info);
-            String input = SCANNER.nextLine();
-            Matcher matcher = pattern.matcher(input);
-            if (matcher.matches()) {
-                return input;
-            }
-            System.err.println(error);
-        } while (true);
-    }
-    
     /**
      * Returns the valid long value scanned from the input.
      *
-     * @param messageInfo               the message to be printed instructing the user to input
-     * @param messageErrorOutOfRange    the message will be printed if the parsed value is out of range
-     * @param messageErrorInvalidNumber the message will be printed if the String does not contain a parsable long
-     * @param min                       minimum limit value
-     * @param max                       maximum limit value
+     * @param messageInfo the message to be printed instructing the user to
+     * input
+     * @param messageErrorOutOfRange the message will be printed if the parsed
+     * value is out of range
+     * @param messageErrorInvalidNumber the message will be printed if the
+     * String does not contain a parsable long
+     * @param min minimum limit value
+     * @param max maximum limit value
      * @return the valid long value scanned from the input
      */
     public static long getLong(
@@ -114,11 +116,14 @@ public class Validation {
     /**
      * Returns the valid double value scanned from the input.
      *
-     * @param messageInfo               the message to be printed instructing the user to input
-     * @param messageErrorOutOfRange    the message will be printed if the parsed value is out of range
-     * @param messageErrorInvalidNumber the message will be printed if the String does not contain a parsable double
-     * @param min                       minimum limit value
-     * @param max                       maximum limit value
+     * @param messageInfo the message to be printed instructing the user to
+     * input
+     * @param messageErrorOutOfRange the message will be printed if the parsed
+     * value is out of range
+     * @param messageErrorInvalidNumber the message will be printed if the
+     * String does not contain a parsable double
+     * @param min minimum limit value
+     * @param max maximum limit value
      * @return the valid double value scanned from the input
      */
     public static double getDouble(
@@ -144,8 +149,10 @@ public class Validation {
     /**
      * Returns the valid boolean value (true/false) scanned from the input.
      *
-     * @param messageInfo          the message to be printed instructing the user to input
-     * @param messageErrorInvalid  the message will be printed if the input is not a valid boolean value
+     * @param messageInfo the message to be printed instructing the user to
+     * input
+     * @param messageErrorInvalid the message will be printed if the input is
+     * not a valid boolean value
      * @return the valid boolean value scanned from the input
      */
     public static boolean isBoolean(String messageInfo, String messageErrorInvalid) {
