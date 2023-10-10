@@ -6,6 +6,7 @@
 package main;
 
 import bo.DoctorBusinessObject;
+import constans.Constant;
 import entity.Doctor;
 import java.util.Scanner;
 import utils.Validation;
@@ -37,26 +38,26 @@ public class Main {
             switch (choice) {
                 case 1:
                     System.out.println("======= Add doctor =======");
-                    String code = Validation.getSring("Enter code: ", "Enter again", "^[A-Za-z0-9]*$");
-                    String name = Validation.getSring("Enter name: ", "Enter again", "^[A-Za-z\\s]*$");
-                    String specialization = Validation.getSring("Enter specialization: ", "Enter again", "^[A-Za-z\\s]*$");
+                    String code = Validation.getSring("Enter code: ", "Enter again", Constant.REGEX_CODE);
+                    String name = Validation.getSring("Enter name: ", "Enter again", Constant.REGEX_NAME);
+                    String specialization = Validation.getSring("Enter specialization: ", "Enter again", Constant.REGEX_SPECIALIZATION);
                     int availability = Validation.getInt("Enter availability: ", "ErrorOutOfRange", "ErrorInvalidNumber", Integer.MIN_VALUE, Integer.MAX_VALUE);
 
                     Doctor newDoctor = new Doctor(code, name, specialization, availability);
-                    doctorManager.addDoctors(newDoctor);
+                    doctorManager.addDoctor(newDoctor);
                     break;
 
                 case 2:
                     System.out.println("======= Delete doctor =======");
-                    doctorManager.deleteDoctors(Validation.getSring("Enter code: ", "Enter again", "^[A-Za-z0-9]*$"));
+                    doctorManager.deleteDoctor(Validation.getSring("Enter code: ", "Enter again", Constant.REGEX_CODE));
                     break;
 
                 case 3:
                     System.out.println("======= Update doctor =======");
-                    String updateCode = Validation.getSring("Enter doctor code to update: ", "Enter again", "^[A-Za-z0-9]*$");
+                    String updateCode = Validation.getSring("Enter doctor code to update: ", "Enter again", Constant.REGEX_CODE);
                     if (doctorManager.checkDoctorExistByCode(updateCode)) {
-                        String newName = Validation.getSring("Enter doctor name to update: ", "Enter again", "^[A-Za-z\\s]*$");
-                        String newSpecialization = Validation.getSring("Enter doctor Specialization to update: ", "Enter again", "^[A-Za-z\\s]*$");
+                        String newName = Validation.getSring("Enter doctor name to update: ", "Enter again", Constant.REGEX_NAME);
+                        String newSpecialization = Validation.getSring("Enter doctor Specialization to update: ", "Enter again", Constant.REGEX_SPECIALIZATION);
                         int newAvailability = Validation.getInt("Enter doctor availability to update: ", "ErrorOutOfRange", "ErrorInvalidNumber", Integer.MIN_VALUE, Integer.MAX_VALUE);
 
                         doctorManager.updateDoctor(updateCode, newName, newSpecialization, newAvailability);
@@ -69,7 +70,7 @@ public class Main {
                 case 4:
                     System.out.println("======= Search doctor =======");
                     System.out.print("Enter doctor name: ");
-                    String searchName = scanner.nextLine();
+                    String searchName = Validation.getSring("Enter name: ", "Enter again", Constant.REGEX_NAME);
                     doctorManager.searchDoctorsByName(searchName);
                     break;
 
