@@ -57,7 +57,7 @@ public class DoctorBusinessObject {
             System.out.printf("%-20s %-30s %-20s %-10d%n", doctor.getCode(), doctor.getName(), doctor.getSpecialization(), doctor.getAvailability());
         }
         System.out.println("====================================================================================");
-    }
+    }   
 
     public static void main(String[] args) {
         DoctorBusinessObject dbo = new DoctorBusinessObject();
