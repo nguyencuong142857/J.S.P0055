@@ -8,6 +8,7 @@ package main;
 import bo.DoctorBusinessObject;
 import constans.Constant;
 import entity.Doctor;
+import java.util.List;
 import java.util.Scanner;
 import utils.Validation;
 
@@ -45,7 +46,11 @@ public class Main {
                         int availability = Validation.getInt("Enter availability: ", "ErrorOutOfRange", "ErrorInvalidNumber", Integer.MIN_VALUE, Integer.MAX_VALUE);
 
                         Doctor newDoctor = new Doctor(code, name, specialization, availability);
-                        doctorManager.addDoctor(newDoctor);
+                        if (doctorManager.addDoctor(newDoctor) == true) {
+                            System.out.println("add ok");
+                        } else {
+                            System.out.println("add not ok");
+                        }
                         String choiceYorN = Validation.getStringWithRegex(
                                 "Do you want to continue? (Y/N): ",
                                 "messageErrorInvalid",
@@ -57,21 +62,24 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("======= Delete doctor =======");
-                    doctorManager.deleteDoctor(Validation.getStringWithRegex("Enter code: ", "Enter again", Constant.REGEX_CODE));
+                    if (doctorManager.deleteDoctor(Validation.getStringWithRegex("Enter code: ", "Enter again", Constant.REGEX_CODE)) == true) {
+                        System.out.println("delete ok");
+                    } else {
+                        System.out.println("delete not ok");
+                    }
                     break;
 
                 case 3:
                     System.out.println("======= Update doctor =======");
-                    String updateCode = Validation.getStringWithRegex("Enter doctor code to update: ", "Enter again", Constant.REGEX_CODE);
-                    if (doctorManager.checkDoctorExistByCode(updateCode)) {
-                        String newName = Validation.getStringWithRegex("Enter doctor name to update: ", "Enter again", Constant.REGEX_NAME);
-                        String newSpecialization = Validation.getStringWithRegex("Enter doctor Specialization to update: ", "Enter again", Constant.REGEX_SPECIALIZATION);
-                        int newAvailability = Validation.getInt("Enter doctor availability to update: ", "ErrorOutOfRange", "ErrorInvalidNumber", Integer.MIN_VALUE, Integer.MAX_VALUE);
-
-                        doctorManager.updateDoctor(updateCode, newName, newSpecialization, newAvailability);
-                        System.out.println("Update doctor successfull!");
+                    String code = Validation.getStringWithRegex("Enter code: ", "Enter again", Constant.REGEX_CODE);
+                    String name = Validation.getStringWithRegex("Enter name: ", "Enter again", Constant.REGEX_NAME);
+                    String specialization = Validation.getStringWithRegex("Enter specialization: ", "Enter again", Constant.REGEX_SPECIALIZATION);
+                    int availability = Validation.getInt("Enter availability: ", "ErrorOutOfRange", "ErrorInvalidNumber", Integer.MIN_VALUE, Integer.MAX_VALUE);
+                    Doctor doctor = new Doctor(code, name, specialization, availability);
+                    if (doctorManager.updateDoctor(doctor) == true) {
+                        System.out.println("update ok");
                     } else {
-                        System.out.println("Not found doctor with code: " + updateCode);
+                        System.out.println("update not ok");
                     }
                     break;
 
@@ -79,7 +87,17 @@ public class Main {
                     System.out.println("======= Search doctor =======");
                     System.out.print("Enter doctor name: ");
                     String searchName = Validation.getStringWithRegex("Enter name: ", "Enter again", Constant.REGEX_NAME);
-                    doctorManager.searchDoctorsByName(searchName);
+                    List<Doctor> list = doctorManager.searchDoctorsByName(searchName);
+                    if (!list.isEmpty()) {
+                        System.out.println("====================================================================================");
+                        System.out.printf("%-20s %-30s %-20s %-10s%n", "Mã bác sĩ", "Tên bác sĩ", "Chuyên khoa", "Khả dụng");
+                        for (Doctor doctorList : list) {
+                            System.out.printf("%-20s %-30s %-20s %-10d%n", doctorList.getCode(), doctorList.getName(), doctorList.getSpecialization(), doctorList.getAvailability());
+                        }
+                        System.out.println("====================================================================================");
+                    } else {
+                        System.out.println("not found");
+                    }
                     break;
 
                 case 5:
