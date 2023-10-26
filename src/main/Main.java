@@ -38,31 +38,27 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    while (true) {
-                        System.out.println("======= Add doctor =======");
-                        String code = Validation.getStringWithRegex("Enter code: ", "Enter again", Constant.REGEX_CODE);
-                        String name = Validation.getStringWithRegex("Enter name: ", "Enter again", Constant.REGEX_NAME);
-                        String specialization = Validation.getStringWithRegex("Enter specialization: ", "Enter again", Constant.REGEX_SPECIALIZATION);
-                        int availability = Validation.getInt("Enter availability: ", "ErrorOutOfRange", "ErrorInvalidNumber", Integer.MIN_VALUE, Integer.MAX_VALUE);
-
-                        Doctor newDoctor = new Doctor(code, name, specialization, availability);
-                        if (doctorManager.addDoctor(newDoctor) == true) {
-                            System.out.println("add ok");
-                        } else {
-                            System.out.println("add not ok");
-                        }
-                        String choiceYorN = Validation.getStringWithRegex(
-                                "Do you want to continue? (Y/N): ",
-                                "messageErrorInvalid",
-                                Constant.REGEX_YES_OR_NO);
-                        if (choiceYorN.equalsIgnoreCase("N")) {
-                            break; // Kết thúc vòng lặp nếu người dùng chọn "N" hoặc "n"
-                        }
+//                    while (true) {
+                    System.out.println("======= Add doctor =======");
+                    Doctor newDoctor = new Doctor();
+                    newDoctor.input();
+                    if (doctorManager.addDoctor(newDoctor) == true) {
+                        System.out.println("add ok");
+                    } else {
+                        System.out.println("add not ok");
                     }
+//                        String choiceYorN = Validation.getString(
+//                                "Do you want to continue? (Y/N): ",
+//                                "messageErrorInvalid",
+//                                Constant.REGEX_YES_OR_NO);
+//                        if (choiceYorN.equalsIgnoreCase("N")) {
+//                            break; // Kết thúc vòng lặp nếu người dùng chọn "N" hoặc "n"
+//                        }
+//                    }
                     break;
                 case 2:
                     System.out.println("======= Delete doctor =======");
-                    if (doctorManager.deleteDoctor(Validation.getStringWithRegex("Enter code: ", "Enter again", Constant.REGEX_CODE)) == true) {
+                    if (doctorManager.deleteDoctor(Validation.getString("Enter code: ", "Enter again", Constant.REGEX_CODE)) == true) {
                         System.out.println("delete ok");
                     } else {
                         System.out.println("delete not ok");
@@ -71,11 +67,8 @@ public class Main {
 
                 case 3:
                     System.out.println("======= Update doctor =======");
-                    String code = Validation.getStringWithRegex("Enter code: ", "Enter again", Constant.REGEX_CODE);
-                    String name = Validation.getStringWithRegex("Enter name: ", "Enter again", Constant.REGEX_NAME);
-                    String specialization = Validation.getStringWithRegex("Enter specialization: ", "Enter again", Constant.REGEX_SPECIALIZATION);
-                    int availability = Validation.getInt("Enter availability: ", "ErrorOutOfRange", "ErrorInvalidNumber", Integer.MIN_VALUE, Integer.MAX_VALUE);
-                    Doctor doctor = new Doctor(code, name, specialization, availability);
+                    Doctor doctor = new Doctor();
+                    doctor.input();
                     if (doctorManager.updateDoctor(doctor) == true) {
                         System.out.println("update ok");
                     } else {
@@ -86,7 +79,7 @@ public class Main {
                 case 4:
                     System.out.println("======= Search doctor =======");
                     System.out.print("Enter doctor name: ");
-                    String searchName = Validation.getStringWithRegex("Enter name: ", "Enter again", Constant.REGEX_NAME);
+                    String searchName = Validation.getString("Enter name: ", "Enter again", Constant.REGEX_NAME);
                     List<Doctor> list = doctorManager.searchDoctorsByName(searchName);
                     if (!list.isEmpty()) {
                         System.out.println("====================================================================================");

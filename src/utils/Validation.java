@@ -1,5 +1,9 @@
 package utils;
 
+import bo.DoctorBusinessObject;
+import entity.Doctor;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -7,6 +11,23 @@ import java.util.regex.Pattern;
 public class Validation {
 
     private static final Scanner SCANNER = new Scanner(System.in);
+
+    public static String getStringCode(String messageInfo, String messageErrorInvalid, String regexPattern) {
+        Pattern pattern = Pattern.compile(regexPattern);
+        do {
+            System.out.print(messageInfo);
+            String input = SCANNER.nextLine();
+            if (input.isEmpty()) { // Kiểm tra nếu chuỗi rỗng
+                System.err.println(messageErrorInvalid);
+                continue;
+            }
+            Matcher matcher = pattern.matcher(input);
+            if (matcher.matches()) {
+                return input;
+            }
+            System.err.println(messageErrorInvalid);
+        } while (true);
+    }
 
     /**
      * Don't let anyone instantiate this class.
@@ -59,7 +80,7 @@ public class Validation {
      * against
      * @return the valid string scanned from the input
      */
-    public static String getStringWithRegex(
+    public static String getString(
             String messageInfo,
             String messageErrorInvalid,
             String regexPattern

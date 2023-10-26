@@ -8,7 +8,6 @@ package bo;
 import entity.Doctor;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -17,14 +16,26 @@ import java.util.stream.Collectors;
  */
 public class DoctorBusinessObject {
 
-    private Map<String, Doctor> doctorMap = new HashMap<>();
+    private HashMap<String, Doctor> doctorMap = new HashMap<>();
 
-    public void setDoctorMap(Map<String, Doctor> doctorMap) {
+    public HashMap<String, Doctor> getDoctorMap() {
+        return doctorMap;
+    }
+
+    public void setDoctorMap(HashMap<String, Doctor> doctorMap) {
         this.doctorMap = doctorMap;
     }
 
     public boolean addDoctor(Doctor doctor) {
-        return doctorMap.putIfAbsent(doctor.getCode(), doctor) == null;
+        if (doctorMap.containsKey(doctor.getCode())) {
+            return false; // Mã đã tồn tại
+        }
+        doctorMap.put(doctor.getCode(), doctor);
+        return true; // Thêm thành công
+    }
+
+    public boolean existsDoctorWithCode(String code) {
+        return doctorMap.containsKey(code);
     }
 
     public boolean deleteDoctor(String code) {
@@ -33,10 +44,9 @@ public class DoctorBusinessObject {
 
     public boolean updateDoctor(Doctor doctor) {
         if (doctorMap.containsKey(doctor.getCode())) {
-            Doctor doctorExist = doctorMap.get(doctor.getCode());
-            doctorExist.setName(doctor.getName());
-            doctorExist.setSpecialization(doctor.getSpecialization());
-            doctorExist.setAvailability(doctor.getAvailability());
+            doctorMap.get(doctor.getCode()).setName(doctor.getName());
+            doctorMap.get(doctor.getCode()).setSpecialization(doctor.getSpecialization());
+            doctorMap.get(doctor.getCode()).setAvailability(doctor.getAvailability());
             return true;
         } else {
             return false;
@@ -54,16 +64,9 @@ public class DoctorBusinessObject {
         System.out.println("====================================================================================");
         System.out.printf("%-20s %-30s %-20s %-10s%n", "Mã bác sĩ", "Tên bác sĩ", "Chuyên khoa", "Khả dụng");
         for (Doctor doctor : doctorMap.values()) {
-            System.out.printf("%-20s %-30s %-20s %-10d%n", doctor.getCode(), doctor.getName(), doctor.getSpecialization(), doctor.getAvailability());
+            doctor.display();
         }
         System.out.println("====================================================================================");
-    }   
-
-    public static void main(String[] args) {
-        DoctorBusinessObject dbo = new DoctorBusinessObject();
-        Doctor doctor = new Doctor("W1", "Cuong", "asd", 23);
-        dbo.addDoctor(doctor);
-        Doctor doctor1 = new Doctor("W2", "Huy", "asd", 23);
-        System.out.println(dbo.updateDoctor(doctor1));
     }
+
 }

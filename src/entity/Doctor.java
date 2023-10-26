@@ -5,6 +5,9 @@
  */
 package entity;
 
+import constans.Constant;
+import utils.Validation;
+
 /**
  *
  * @author ngnqu
@@ -58,4 +61,14 @@ public class Doctor {
         this.availability = availability;
     }
 
+    public void input() {
+        this.code = Validation.getStringCode("Enter code: ", "Invalid name format. Please enter again.", Constant.REGEX_CODE);
+        this.name = Validation.getString("Enter name: ", "Invalid name format. Please enter again.", Constant.REGEX_NAME);
+        this.specialization = Validation.getString("Enter specialization: ", "Invalid specialization format. Please enter again.", Constant.REGEX_NAME);
+        this.availability = Validation.getInt("Enter availability: ", "Invalid availability format", " Please enter again.", Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+
+    public void display() {
+        System.out.printf("%-20s %-30s %-20s %-10d%n", code, name, specialization, availability);
+    }
 }
