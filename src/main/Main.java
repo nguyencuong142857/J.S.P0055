@@ -38,23 +38,21 @@ public class Main {
 
             switch (choice) {
                 case 1:
-//                    while (true) {
-                    System.out.println("======= Add doctor =======");
-                    Doctor newDoctor = new Doctor();
-                    newDoctor.input();
-                    if (doctorManager.addDoctor(newDoctor) == true) {
-                        System.out.println("add ok");
-                    } else {
-                        System.out.println("add not ok");
+                    while (true) {
+                        System.out.println("======= Add doctor =======");
+                        if (doctorManager.addDoctor() == true) {
+                            System.out.println("add ok");
+                        } else {
+                            System.out.println("add not ok");
+                        }
+                        String choiceYorN = Validation.getString(
+                                "Do you want to continue? (Y/N): ",
+                                "messageErrorInvalid",
+                                Constant.REGEX_YES_OR_NO);
+                        if (choiceYorN.equalsIgnoreCase("N")) {
+                            break; // Kết thúc vòng lặp nếu người dùng chọn "N" hoặc "n"
+                        }
                     }
-//                        String choiceYorN = Validation.getString(
-//                                "Do you want to continue? (Y/N): ",
-//                                "messageErrorInvalid",
-//                                Constant.REGEX_YES_OR_NO);
-//                        if (choiceYorN.equalsIgnoreCase("N")) {
-//                            break; // Kết thúc vòng lặp nếu người dùng chọn "N" hoặc "n"
-//                        }
-//                    }
                     break;
                 case 2:
                     System.out.println("======= Delete doctor =======");
@@ -67,9 +65,7 @@ public class Main {
 
                 case 3:
                     System.out.println("======= Update doctor =======");
-                    Doctor doctor = new Doctor();
-                    doctor.input();
-                    if (doctorManager.updateDoctor(doctor) == true) {
+                    if (doctorManager.updateDoctor() == true) {
                         System.out.println("update ok");
                     } else {
                         System.out.println("update not ok");
@@ -84,9 +80,9 @@ public class Main {
                     if (!list.isEmpty()) {
                         System.out.println("====================================================================================");
                         System.out.printf("%-20s %-30s %-20s %-10s%n", "Mã bác sĩ", "Tên bác sĩ", "Chuyên khoa", "Khả dụng");
-                        for (Doctor doctorList : list) {
+                        list.forEach((doctorList) -> {
                             System.out.printf("%-20s %-30s %-20s %-10d%n", doctorList.getCode(), doctorList.getName(), doctorList.getSpecialization(), doctorList.getAvailability());
-                        }
+                        });
                         System.out.println("====================================================================================");
                     } else {
                         System.out.println("not found");

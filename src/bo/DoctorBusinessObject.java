@@ -8,6 +8,7 @@ package bo;
 import entity.Doctor;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -16,21 +17,27 @@ import java.util.stream.Collectors;
  */
 public class DoctorBusinessObject {
 
-    private HashMap<String, Doctor> doctorMap = new HashMap<>();
+    private Map<String, Doctor> doctorMap;
 
-    public HashMap<String, Doctor> getDoctorMap() {
-        return doctorMap;
+    public DoctorBusinessObject() {
+        this.doctorMap = new HashMap<>();
     }
 
-    public void setDoctorMap(HashMap<String, Doctor> doctorMap) {
+    public DoctorBusinessObject(Map<String, Doctor> doctorMap) {
         this.doctorMap = doctorMap;
     }
 
-    public boolean addDoctor(Doctor doctor) {
-        if (doctorMap.containsKey(doctor.getCode())) {
+    public void setDoctorMap(Map<String, Doctor> doctorMap) {
+        this.doctorMap = doctorMap;
+    }
+
+    public boolean addDoctor() {
+        Doctor newDoctor = new Doctor();
+        newDoctor.input();
+        if (doctorMap.containsKey(newDoctor.getCode())) {
             return false; // Mã đã tồn tại
         }
-        doctorMap.put(doctor.getCode(), doctor);
+        doctorMap.put(newDoctor.getCode(), newDoctor);
         return true; // Thêm thành công
     }
 
@@ -42,7 +49,9 @@ public class DoctorBusinessObject {
         return doctorMap.remove(code) != null;
     }
 
-    public boolean updateDoctor(Doctor doctor) {
+    public boolean updateDoctor() {
+        Doctor doctor = new Doctor();
+        doctor.input();
         if (doctorMap.containsKey(doctor.getCode())) {
             doctorMap.get(doctor.getCode()).setName(doctor.getName());
             doctorMap.get(doctor.getCode()).setSpecialization(doctor.getSpecialization());
@@ -63,9 +72,9 @@ public class DoctorBusinessObject {
     public void displayAllDoctors() {
         System.out.println("====================================================================================");
         System.out.printf("%-20s %-30s %-20s %-10s%n", "Mã bác sĩ", "Tên bác sĩ", "Chuyên khoa", "Khả dụng");
-        for (Doctor doctor : doctorMap.values()) {
+        doctorMap.values().forEach((doctor) -> {
             doctor.display();
-        }
+        });
         System.out.println("====================================================================================");
     }
 
