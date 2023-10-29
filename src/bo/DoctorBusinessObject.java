@@ -5,11 +5,13 @@
  */
 package bo;
 
+import constans.Constant;
 import entity.Doctor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import utils.Validation;
 
 /**
  *
@@ -33,16 +35,16 @@ public class DoctorBusinessObject {
 
     public boolean addDoctor() {
         Doctor newDoctor = new Doctor();
-        newDoctor.input();
-        if (doctorMap.containsKey(newDoctor.getCode())) {
-            return false; // Mã đã tồn tại
-        }
+        String code;
+        do {
+            code = Validation.getStringCode("Enter code: ", "Invalid name format. Please enter again.", Constant.REGEX_CODE);
+            if (doctorMap.containsKey(code.toUpperCase())) {
+                System.out.println("Code already exists. Please enter a different code.");
+            }
+        } while (doctorMap.containsKey(code.toUpperCase()));
+        newDoctor.input(code.toUpperCase());
         doctorMap.put(newDoctor.getCode(), newDoctor);
         return true; // Thêm thành công
-    }
-
-    public boolean existsDoctorWithCode(String code) {
-        return doctorMap.containsKey(code);
     }
 
     public boolean deleteDoctor(String code) {
@@ -51,7 +53,8 @@ public class DoctorBusinessObject {
 
     public boolean updateDoctor() {
         Doctor doctor = new Doctor();
-        doctor.input();
+        String code = Validation.getStringCode("Enter code: ", "Invalid name format. Please enter again.", Constant.REGEX_CODE);
+        doctor.input(code);
         if (doctorMap.containsKey(doctor.getCode())) {
             doctorMap.get(doctor.getCode()).setName(doctor.getName());
             doctorMap.get(doctor.getCode()).setSpecialization(doctor.getSpecialization());

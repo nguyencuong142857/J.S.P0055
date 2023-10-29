@@ -61,8 +61,8 @@ public class Doctor {
         this.availability = availability;
     }
 
-    public void input() {
-        this.code = Validation.getStringCode("Enter code: ", "Invalid name format. Please enter again.", Constant.REGEX_CODE);
+    public void input(String code) {     
+        this.code = code;
         this.name = Validation.getString("Enter name: ", "Invalid name format. Please enter again.", Constant.REGEX_NAME);
         this.specialization = Validation.getString("Enter specialization: ", "Invalid specialization format. Please enter again.", Constant.REGEX_NAME);
         this.availability = Validation.getInt("Enter availability: ", "Invalid availability format", " Please enter again.", Integer.MIN_VALUE, Integer.MAX_VALUE);
