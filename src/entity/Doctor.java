@@ -6,6 +6,7 @@
 package entity;
 
 import constans.Constant;
+import java.util.Map;
 import utils.Validation;
 
 /**
@@ -61,11 +62,18 @@ public class Doctor {
         this.availability = availability;
     }
 
-    public void input(String code) {     
-        this.code = code;
+    public void input(Map<String, Doctor> doctorMap) {
+        String inputCode;
+        do {
+            inputCode = Validation.getStringCode("Enter code: ", "Invalid name format. Please enter again.", Constant.REGEX_CODE).toUpperCase();
+            if (doctorMap.containsKey(inputCode.toUpperCase())) {
+                System.out.println("Code already exists. Please enter a different code.");
+            }
+        } while (doctorMap.containsKey(inputCode.toUpperCase()));
+        this.code = inputCode;
         this.name = Validation.getString("Enter name: ", "Invalid name format. Please enter again.", Constant.REGEX_NAME);
         this.specialization = Validation.getString("Enter specialization: ", "Invalid specialization format. Please enter again.", Constant.REGEX_NAME);
-        this.availability = Validation.getInt("Enter availability: ", "Invalid availability format", " Please enter again.", Integer.MIN_VALUE, Integer.MAX_VALUE);
+        this.availability = Validation.getInt("Enter availability: ","", "Invalid availability format. Please enter again.", Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
 
     public void display() {

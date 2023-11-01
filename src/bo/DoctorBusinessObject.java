@@ -35,16 +35,8 @@ public class DoctorBusinessObject {
 
     public boolean addDoctor() {
         Doctor newDoctor = new Doctor();
-        String code;
-        do {
-            code = Validation.getStringCode("Enter code: ", "Invalid name format. Please enter again.", Constant.REGEX_CODE);
-            if (doctorMap.containsKey(code.toUpperCase())) {
-                System.out.println("Code already exists. Please enter a different code.");
-            }
-        } while (doctorMap.containsKey(code.toUpperCase()));
-        newDoctor.input(code.toUpperCase());
-        doctorMap.put(newDoctor.getCode(), newDoctor);
-        return true; // Thêm thành công
+        newDoctor.input(doctorMap);
+        return doctorMap.put(newDoctor.getCode(), newDoctor) == null; // Thêm thành công
     }
 
     public boolean deleteDoctor(String code) {
@@ -52,17 +44,18 @@ public class DoctorBusinessObject {
     }
 
     public boolean updateDoctor() {
-        Doctor doctor = new Doctor();
-        String code = Validation.getStringCode("Enter code: ", "Invalid name format. Please enter again.", Constant.REGEX_CODE);
-        doctor.input(code);
-        if (doctorMap.containsKey(doctor.getCode())) {
-            doctorMap.get(doctor.getCode()).setName(doctor.getName());
-            doctorMap.get(doctor.getCode()).setSpecialization(doctor.getSpecialization());
-            doctorMap.get(doctor.getCode()).setAvailability(doctor.getAvailability());
-            return true;
-        } else {
-            return false;
-        }
+        String inputCode;
+        do {
+            inputCode = Validation.getString("Enter code: ", "Invalid name format. Please enter again.", Constant.REGEX_CODE).toUpperCase();
+            if (!doctorMap.containsKey(inputCode.toUpperCase())) {
+                System.out.println("Code isn't exists. Please enter a different code.");
+            }
+        } while (!doctorMap.containsKey(inputCode.toUpperCase()));
+        Doctor doctor = doctorMap.get(inputCode);
+        doctor.setName(Validation.getString("Enter name: ", "Invalid name format. Please enter again.", Constant.REGEX_NAME));
+        doctor.setSpecialization(Validation.getString("Enter specialization: ", "Invalid specialization format. Please enter again.", Constant.REGEX_NAME));
+        doctor.setAvailability(Validation.getInt("Enter availability: ", "Invalid availability format", " Please enter again.", Integer.MIN_VALUE, Integer.MAX_VALUE));
+        return true;
     }
 
     public List<Doctor> searchDoctorsByName(String name) {
