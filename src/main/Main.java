@@ -24,7 +24,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         DoctorBusinessObject doctorManager = new DoctorBusinessObject();
-
+        Main main = new Main();
         while (true) {
             System.out.println("----- Doctor manage -----");
             System.out.println("1. Add doctor");
@@ -65,7 +65,8 @@ public class Main {
 
                 case 3:
                     System.out.println("======= Update doctor =======");
-                    if (doctorManager.updateDoctor() == true) {
+//                    String inputCodeForUpdate = getInputCode(doctorManager);
+                    if (doctorManager.updateDoctor(main.getInputCode(doctorManager)) == true) {
                         System.out.println("update ok");
                     } else {
                         System.out.println("update not ok");
@@ -102,4 +103,16 @@ public class Main {
             }
         }
     }
+
+    private String getInputCode(DoctorBusinessObject doctorManager) {
+        String inputCode;
+        do {
+            inputCode = Validation.getString("Enter code: ", "Invalid name format. Please enter again.", Constant.REGEX_CODE).toUpperCase();
+            if (!doctorManager.isDup(inputCode)) {
+                System.out.println("Code isn't exists. Please enter a different code.");
+            }
+        } while (!doctorManager.isDup(inputCode));
+        return inputCode;
+    }
+
 }

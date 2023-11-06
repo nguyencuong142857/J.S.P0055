@@ -43,14 +43,11 @@ public class DoctorBusinessObject {
         return doctorMap.remove(code) != null;
     }
 
-    public boolean updateDoctor() {
-        String inputCode;
-        do {
-            inputCode = Validation.getString("Enter code: ", "Invalid name format. Please enter again.", Constant.REGEX_CODE).toUpperCase();
-            if (!doctorMap.containsKey(inputCode.toUpperCase())) {
-                System.out.println("Code isn't exists. Please enter a different code.");
-            }
-        } while (!doctorMap.containsKey(inputCode.toUpperCase()));
+    public boolean isDup(String code) {
+        return doctorMap.containsKey(code);
+    }
+
+    public boolean updateDoctor(String inputCode) {
         Doctor doctor = doctorMap.get(inputCode);
         doctor.setName(Validation.getString("Enter name: ", "Invalid name format. Please enter again.", Constant.REGEX_NAME));
         doctor.setSpecialization(Validation.getString("Enter specialization: ", "Invalid specialization format. Please enter again.", Constant.REGEX_NAME));
